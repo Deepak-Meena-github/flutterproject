@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
@@ -7,6 +8,11 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Firebase Authentication'),
+      ),
+      body: Center(
+        child: TextButton(onPressed: () {
+          
+        },child: const Text("Register"),),
       ),
     );
   }
