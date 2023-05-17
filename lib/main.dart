@@ -5,6 +5,7 @@ import 'package:flutter_authentication/firebase_options.dart';
 
 import 'screens/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'screens/ragister_view.dart';
 
 
 void main() async {
@@ -26,6 +27,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.cyan,
       ),
       home: const   HomePage(),
+      routes: {
+        '/login/':(context)=> const LoginPage(),
+        '/ragister/':(context)=> const RegisterView(),
+        
+      },
     );
   }
 }
@@ -34,37 +40,64 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: FutureBuilder(
+    return FutureBuilder(
         future: Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
         ),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-            final user=(FirebaseAuth.instance.currentUser);
-            final emailVarified=user?.emailVerified ?? false;
-            if(emailVarified){
-              print("you are a varified user" );
-            }
-            else {
-                   print('you need to varify your email');
-            }
-           return const Text('done');
+//             final user=(FirebaseAuth.instance.currentUser);
+//             final emailVarified=user?.emailVerified ?? false;
+//             print(user);
+//             if(emailVarified){
+              /*  */
+               
+// return const Text('done');
+//             }
+//             else {
+                   
+//                  return const VarifyEmailVIew();
+//             }
+          return const LoginPage();
               
-             default:
-             return const Text("loading");
-
+             default: 
+             return const CircularProgressIndicator();
+            
 
 
             
           }
           
           },
-      ),
-    );
+      );
   }
  }
+ class VarifyEmailVIew extends StatefulWidget {
+  const VarifyEmailVIew({super.key});
+
+  @override
+  State<VarifyEmailVIew> createState() => _VarifyEmailVIewState();
+}
+
+class _VarifyEmailVIewState extends State<VarifyEmailVIew> {
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+      appBar: AppBar(
+        title: const Text('varify email'),
+      ),
+      body: Column(
+        children: [
+        const  Text('please varify your email addresses'),
+          TextButton(onPressed: ()async {
+            final user=FirebaseAuth.instance.currentUser;
+            user?.sendEmailVerification();
+    
+          }, child:const Text('send email varifation '),
+          )
+        ]
+        ),
+    );
+  }
+}
