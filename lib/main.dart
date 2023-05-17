@@ -2,10 +2,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_authentication/firebase_options.dart';
+import 'package:flutter_authentication/screens/varify_email.dart';
 
 import 'screens/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screens/ragister_view.dart';
+
 
 
 void main() async {
@@ -47,19 +49,21 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-//             final user=(FirebaseAuth.instance.currentUser);
-//             final emailVarified=user?.emailVerified ?? false;
-//             print(user);
-//             if(emailVarified){
-              /*  */
-               
-// return const Text('done');
-//             }
-//             else {
-                   
-//                  return const VarifyEmailVIew();
-//             }
-          return const LoginPage();
+            final user=FirebaseAuth.instance.currentUser;
+            if(user!=null){
+              if(user.emailVerified){
+                print('email is varified');
+              }
+              else {
+              return const VarifyEmailVIew();
+            }
+             
+            }
+            else {
+            return const LoginPage();
+            }
+ 
+          return const Text('done');
               
              default: 
              return const CircularProgressIndicator();
@@ -73,31 +77,4 @@ class MyApp extends StatelessWidget {
       );
   }
  }
- class VarifyEmailVIew extends StatefulWidget {
-  const VarifyEmailVIew({super.key});
-
-  @override
-  State<VarifyEmailVIew> createState() => _VarifyEmailVIewState();
-}
-
-class _VarifyEmailVIewState extends State<VarifyEmailVIew> {
-  @override
-  Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: AppBar(
-        title: const Text('varify email'),
-      ),
-      body: Column(
-        children: [
-        const  Text('please varify your email addresses'),
-          TextButton(onPressed: ()async {
-            final user=FirebaseAuth.instance.currentUser;
-            user?.sendEmailVerification();
-    
-          }, child:const Text('send email varifation '),
-          )
-        ]
-        ),
-    );
-  }
-}
+ 
