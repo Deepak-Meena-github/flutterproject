@@ -1,23 +1,19 @@
-import 'package:flutter/material.dart';
-//import 'screens/login_page.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import '../firebase_options.dart';
-
+import 'package:flutter/material.dart';
 
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_authentication/firebase_options.dart';
 
 
-
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterView extends StatefulWidget {
+  const RegisterView({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
   @override
@@ -37,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Firebase Authentication'),
       ),
       body: FutureBuilder(
         future: Firebase.initializeApp(
@@ -69,27 +65,36 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () async {
                   final email = _email.text;
                   final password = _password.text;
-                  try{
+                   try{
                      final userCredential = await FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
+                      .createUserWithEmailAndPassword(
                           email: email, password: password);
                   // ignore: avoid_print
                   print(userCredential);
                   }  on FirebaseAuthException catch(e){
                     // ignore: avoid_print
-                    if(e.code=='invalid-email'){
-                      print('user-not-found');
+                    if(e.code=='weak-password'){
+                      print('weak-password');
                     }
-                    else if (e.code=='wrong-password'){
-                          print('wrong password');
+                    else if (e.code=='email-already-in-use'){
+                          // ignore: avoid_print
+                          print("email already in use");
                     }
+                    // else if(e.code=='invalid-email'){
+                    //   print('invalid email entered');
+                    // }
+                    else if (e.code=="invalid-email"){
+                      print("email is not valid");
+                    }
+                   
+                    //print(e);
                    
                 
                   }
                   
                  
                 },
-                child: const Text("Login"),
+                child: const Text("Ragister"),
               ),
             ],
           );
@@ -97,9 +102,6 @@ class _LoginPageState extends State<LoginPage> {
               
              default:
              return const Text("loading");
-
-
-
             
           }
           
@@ -107,8 +109,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-  }
-  
-
-  
-
+}
