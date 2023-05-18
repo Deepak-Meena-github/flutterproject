@@ -12,7 +12,6 @@ import 'package:flutter_authentication/screens/varify_email.dart';
 import 'screens/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screens/ragister_view.dart';
-import 'dart:developer' as devtools show  log;
 
 
 void main() async {
