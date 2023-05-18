@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show  log;
+//import 'dart:developer' as devtools show  log;
 
 import 'package:flutter_authentication/constant/routes.dart';
+import 'package:flutter_authentication/utilities/show_error.dart';
 
 
 
@@ -58,30 +59,39 @@ class _RegisterViewState extends State<RegisterView> {
                     final email = _email.text;
                     final password = _password.text;
                      try{
-                       final userCredential = await FirebaseAuth.instance
+                       await FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
                             email: email, password: password);
-                    // ignore: avoid_print
-                    devtools.log(userCredential.toString());
-                    }  on FirebaseAuthException catch(e){
+                            final user=FirebaseAuth.instance.currentUser;
+                         await   user?.sendEmailVerification();
+
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).pushNamed(verifyEmailRoute);
+                    //devtools.log(userCredential.toString());
+                    }  
+                    on FirebaseAuthException catch(e){
                       // ignore: avoid_print
                       if(e.code=='weak-password'){
-                      devtools.log('weak-password');
+                      await showErrorDialog(context, "weakpassword",);
                       }
                       else if (e.code=='email-already-in-use'){
                             // ignore: avoid_print
-                            devtools.log("email already in use");
+                           await showErrorDialog(context, "email is already used",);
                       }
                       // else if(e.code=='invalid-email'){
                       //   print('invalid email entered');
                       // }
                       else if (e.code=="invalid-email"){
-                        devtools.log("email is not valid");
+                        await showErrorDialog(context, 'invalid email address',);
                       }
-                     
+                     else {
+                      await showErrorDialog(context, "Error($e.code)",);
+                     }
                       //print(e);
                      
                   
+                    } catch(e){
+                      await showErrorDialog(context, e.toString(),);
                     }
                     
                    

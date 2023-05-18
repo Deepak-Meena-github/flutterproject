@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         loginRoute:(context)=> const LoginPage(),
         ragisterRoute:(context)=> const RegisterView(),
         notesRoute: (context)=> const  NotesView(),
-        
+         verifyEmailRoute: (context)=> const VarifyEmailVIew(),
       },
     );
   }
