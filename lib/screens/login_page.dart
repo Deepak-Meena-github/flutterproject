@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as devtools show  log;
 
+import 'package:flutter_authentication/constant/routes.dart';
+
 
 
 
@@ -67,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                             email: email, password: password);
                     
                     // ignore: use_build_context_synchronously
-                    Navigator.of(context).pushNamedAndRemoveUntil('/notes/',
+                    Navigator.of(context).pushNamedAndRemoveUntil(notesRoute,
                      (route) => false);
                     //send the user main ui
                     
@@ -89,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 TextButton(onPressed: (){
                   Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/ragister/',
+                  ragisterRoute,
                      (route) => false
                      );
     

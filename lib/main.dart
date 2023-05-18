@@ -6,6 +6,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_authentication/firebase_options.dart';
+import 'package:flutter_authentication/constant/routes.dart';
 import 'package:flutter_authentication/screens/varify_email.dart';
 
 import 'screens/login_page.dart';
@@ -35,9 +36,9 @@ class MyApp extends StatelessWidget {
       ),
       home: const   HomePage(),
       routes: {
-        '/login/':(context)=> const LoginPage(),
-        '/ragister/':(context)=> const RegisterView(),
-        '/notes/': (context)=> const  NotesView(),
+        loginRoute:(context)=> const LoginPage(),
+        ragisterRoute:(context)=> const RegisterView(),
+        notesRoute: (context)=> const  NotesView(),
         
       },
     );
@@ -105,7 +106,7 @@ class _NotesViewState extends State<NotesView> {
               final shouldlogout= await showLogOutDialog(context);
               if(shouldlogout){
                 FirebaseAuth.instance.signOut();
-                Navigator.of(context).pushNamedAndRemoveUntil('/login/', (_) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil(loginRoute, (_) => false);
 
               }
               
